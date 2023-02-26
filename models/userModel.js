@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  list: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'List',
+  },
 });
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
