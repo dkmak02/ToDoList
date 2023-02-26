@@ -6,6 +6,10 @@ const toDoSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Must have activity'],
   },
+  list: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'List',
+  },
 });
 
 const ToDo = mongoose.model('ToDo', toDoSchema);
