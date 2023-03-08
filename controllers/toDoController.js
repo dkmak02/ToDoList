@@ -12,3 +12,12 @@ exports.createNewList = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.addActivityToList = catchAsync(async (req, res, next) => {
+  const newList = await List.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: {
+      list: newList,
+    },
+  });
+});
