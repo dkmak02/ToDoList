@@ -59,10 +59,10 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getMe = catchAsync(async (req, res, next) => {
+exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
-});
+};
 exports.updateUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

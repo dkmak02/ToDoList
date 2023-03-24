@@ -57,7 +57,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (!loggedUser) {
     return next(new AppError('User does not exist!', 401));
   }
-  req.use = loggedUser;
+  req.user = loggedUser;
   next();
 });
 exports.updatePassword = catchAsync(async (req, res, next) => {
