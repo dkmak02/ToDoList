@@ -4,6 +4,8 @@ const rateLimit = require('express-rate-limit');
 
 const userRouter = require('./routes/userRoutes');
 const toDoRouter = require('./routes/toDoRoutes');
+const errorHandling = require('./controllers/errorController');
+
 const app = express();
 
 //Using morgan in dev mode change that later
@@ -22,4 +24,5 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/lists', toDoRouter);
+app.use(errorHandling);
 module.exports = app;
