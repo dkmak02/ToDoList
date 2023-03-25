@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 
 const userRouter = require('./routes/userRoutes');
 const toDoRouter = require('./routes/toDoRoutes');
+const listRouter = require('./routes/listRoutes');
 const errorHandling = require('./controllers/errorController');
 
 const app = express();
@@ -23,6 +24,6 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 app.use('/api/v1/users', userRouter);
-app.use('/api/v1/lists', toDoRouter);
+app.use('/api/v1/lists', listRouter);
 app.use(errorHandling);
 module.exports = app;
