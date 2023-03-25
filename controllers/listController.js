@@ -40,7 +40,7 @@ exports.changeListName = catchAsync(async (req, res, next) => {
   });
 });
 exports.getAllListsForUser = catchAsync(async (req, res, next) => {
-  const lists = await List.find({ user: req.body.id });
+  const lists = await List.find({ user: req.params.id });
   if (!lists) {
     return next(new AppError('No lists with that user ID'));
   }
@@ -53,7 +53,7 @@ exports.getAllListsForUser = catchAsync(async (req, res, next) => {
   });
 });
 exports.getMyLists = (req, res, next) => {
-  req.body.id = req.user.id;
+  req.params.id = req.user.id;
   next();
 };
 exports.deleteAnyList = catchAsync(async (req, res, next) => {
