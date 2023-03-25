@@ -12,5 +12,11 @@ router
   .route('/')
   .get(listController.getAllLists)
   .post(listController.createNewList);
-router.route('/:id').patch(listController.changeListName);
+router
+  .route('/:id')
+  .patch(listController.changeListName)
+  .delete(listController.deleteAnyList);
+router.get('/userLists', listController.getAllListsForUser);
+router.get('/me', listController.getMyLists, listController.getAllListsForUser);
+router.route('/me/:id').delete(listController.deleteMyList);
 module.exports = router;
