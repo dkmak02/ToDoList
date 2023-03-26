@@ -61,3 +61,6 @@ exports.getActivity = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.deleteActivitiesForList = catchAsync(async (listId) => {
+  await Activieties.deleteMany({ list: listId });
+});

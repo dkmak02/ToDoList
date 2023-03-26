@@ -37,13 +37,5 @@ listSchema.pre(/^find/, function (next) {
   next();
 });
 //delete activities when list is deleted
-listSchema.pre(/^findByIdAndDele/, async function (next) {
-  const list = await this.model.findById(this._conditions._id);
-  console.log('xdd');
-  await list.activities.forEach(async (activity) => {
-    await this.model('Activity').findByIdAndDelete(activity);
-  });
-  next();
-});
 const List = mongoose.model('List', listSchema);
 module.exports = List;

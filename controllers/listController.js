@@ -2,6 +2,11 @@
 const List = require('../models/listModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const activityController = require('./activitiesController');
+
+const delActivities = async (listId) => {
+  await activityController.deleteActivitiesForList(listId);
+};
 
 exports.createNewList = catchAsync(async (req, res, next) => {
   const newList = await List.create({
@@ -57,7 +62,11 @@ exports.getMyLists = (req, res, next) => {
   next();
 };
 exports.deleteAnyList = catchAsync(async (req, res, next) => {
-  await List.findByIdAndDelete(req.params.id);
+  const list = await List.findByIdAndDelete(req.params.id);
+  if (!list) {
+    return next(new AppError('No list with that ID'));
+  }
+  await delActivities(req.params.id);
   res.status(204).json({
     status: 'success',
     data: null,
@@ -73,7 +82,7 @@ exports.deleteMyList = catchAsync(async (req, res, next) => {
       new AppError('This list does not belong to you or does not exist')
     );
   }
-
+  await delActivities(req.params.id);
   res.status(204).json({
     status: 'success',
     data: null,
