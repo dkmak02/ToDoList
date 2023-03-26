@@ -48,10 +48,6 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
-  list: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'List',
-  },
 });
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
@@ -65,5 +61,9 @@ userSchema.methods.correctPassword = async function (
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+userSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
 const User = mongoose.model('User', userSchema);
 module.exports = User;
