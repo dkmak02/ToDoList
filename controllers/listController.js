@@ -16,7 +16,7 @@ exports.createNewList = catchAsync(async (req, res, next) => {
   });
 });
 exports.getAllLists = catchAsync(async (req, res, next) => {
-  const lists = await List.find();
+  const lists = await List.find().populate('activities');
   res.status(200).json({
     status: 'success',
     results: lists.length,
@@ -28,7 +28,7 @@ exports.getAllLists = catchAsync(async (req, res, next) => {
 exports.changeListName = catchAsync(async (req, res, next) => {
   const list = await List.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
-  });
+  }).populate('activities');
   if (!list) {
     return next(new AppError('No list with that ID'));
   }
@@ -40,7 +40,7 @@ exports.changeListName = catchAsync(async (req, res, next) => {
   });
 });
 exports.getAllListsForUser = catchAsync(async (req, res, next) => {
-  const lists = await List.find({ user: req.params.id });
+  const lists = await List.find({ user: req.params.id }).populate('activities');
   if (!lists) {
     return next(new AppError('No lists with that user ID'));
   }
@@ -77,5 +77,17 @@ exports.deleteMyList = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  });
+});
+exports.getList = catchAsync(async (req, res, next) => {
+  const list = await List.findById(req.params.id).populate('activities');
+  if (!list) {
+    return next(new AppError('No list with that ID'));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      list,
+    },
   });
 });
