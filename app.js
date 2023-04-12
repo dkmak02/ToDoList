@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 
 const userRouter = require('./routes/userRoutes');
 const activietiesRouter = require('./routes/toDoRoutes');
@@ -10,6 +11,7 @@ const errorHandling = require('./controllers/errorController');
 const app = express();
 
 //Using morgan in dev mode change that later
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10kb' }));
 app.use((req, res, next) => {
